@@ -1,25 +1,38 @@
-#!usr/bin/python
-from socket import *
+import socket               # Import socket module
 
-host = 'localhost'  # '127.0.0.1' can also be used
-port = 52300
+s = socket.socket()         
+host = socket.gethostname()
+port = 8297                # Reserve a port for your service.
 
-sock = socket()
-# Connecting to socket
+s.connect((host, port))
+reply= s.recv(1024)
 
-sock.connect((host, port))  # Connect takes tuple of host and port
+print reply
+#s.send("hi")
 
-# Infinite loop to keep client running.
-
+   
+   
 
 while True:
-    msg = raw_input("type:")
+  
+  msg= raw_input("")
+  
+  if msg:  
+       s.send(msg)
+       
+       if not msg:
+          break
+  
+  reply1= s.recv(1024)
+  if reply1:
+      print reply1
+      if not reply1:
+          break
 
-    sock.send(msg)
-    print 'waiting'
+   
+   
+  
+   
+   
 
-    reply = sock.recv(1024)
-
-    print 'received', repr(reply)
-
-sock.close()
+s.close()                     # Close the socket when done

@@ -1,3 +1,4 @@
+#!usr/bin/python
 import socket               # Import socket module
 
 s = socket.socket()         

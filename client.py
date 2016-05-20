@@ -1,39 +1,24 @@
 #!usr/bin/python
-import socket               # Import socket module
-
-s = socket.socket()         
-host = socket.gethostname()
-port = 8297                # Reserve a port for your service.
+from socket import *
+from threading import Thread
+import sys
+s = socket(AF_INET, SOCK_STREAM)
+host = 'localhost'
+port = 9989          
 
 s.connect((host, port))
-reply= s.recv(1024)
 
-print reply
-#s.send("hi")
+def recv():
+   while True:
+       data= s.recv(1024)
+       if not data:
+           sys.exit(0)
+       print data
 
-   
-   
+Thread( target=recv).start()
 
 while True:
-  
-  msg= raw_input("")
-  
-  if msg:  
-       s.send(msg)
-       
-       if not msg:
-          break
-  
-  reply1= s.recv(1024)
-  if reply1:
-      print reply1
-      if not reply1:
-          break
+    data = raw_input('')
+    s.send(data)
 
-   
-   
-  
-   
-   
-
-s.close()                     # Close the socket when done
+s.close()
